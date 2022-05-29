@@ -2,6 +2,7 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 LEANING_RATE = 0.001
+CYCLE = 100
 
 def main():
     input_x = np.array([1.0, 2.0, 3.0])
@@ -16,7 +17,7 @@ def main():
     input = input_x
     
     history = []
-    for n in range(50):
+    for n in range(CYCLE):
         z0, z1 = forward(input, weight)
         back(input, z0, z1, answer_y, weight)
         
