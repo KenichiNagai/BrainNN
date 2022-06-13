@@ -4,14 +4,13 @@ import statistics
 
 
 x0 = 0.1
-# e0 = 0.1 + 10 ** -8
-
 x = [x0]
-a = 1.0
 lyapunov = []
 
 for n in range(50):
     a = 1.0 + 0.1*n
+    if a == 1.0:
+        a = 1.001
     if a >= 4:
         a = 3.999
 
@@ -19,7 +18,7 @@ for n in range(50):
     for i in range(1000000):
         x.append(a * x[-1] * (1- x[-1]))
         if i > 100000:
-            delta.append(a * ( -x[-1]**2 - x[-1] + 1))
+            delta.append(a * ( 1 - 2*x[-1] ))
 
     # print (x)
     # print (delta)
