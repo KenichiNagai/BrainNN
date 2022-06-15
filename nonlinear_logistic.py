@@ -1,5 +1,5 @@
 # logistic map
-from cmath import log
+import math
 import statistics
 
 
@@ -7,10 +7,8 @@ x0 = 0.1
 x = [x0]
 lyapunov = []
 
-for n in range(50):
-    a = 1.0 + 0.1*n
-    if a == 1.0:
-        a = 1.001
+for n in range(500):
+    a = 1.0 + 0.01*n
     if a >= 4:
         a = 3.999
 
@@ -25,10 +23,10 @@ for n in range(50):
 
     sum = 0.0
     for d in delta:
-        sum += log(abs(d))
-        # print(abs(d))
+        sum += math.log(abs(d))
 
-    delta_mean = statistics.mean(delta)
+
+    delta_mean = sum / len(delta)
     print(delta_mean)
     lyapunov.append([a, delta_mean])
 

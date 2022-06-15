@@ -1,6 +1,6 @@
 import math
 import statistics
-from cv2 import log, sqrt
+from cv2 import sqrt
 import numpy as np
 
 # Henon map
