@@ -2,13 +2,15 @@
 import math
 import statistics
 
+from csvFunctions import outputCSV
+
 
 x0 = 0.1
 x = [x0]
 lyapunov = []
 
 for n in range(500):
-    a = 1.0 + 0.01*n
+    a = 1.0 + 0.01*n + 0.000000001
     if a >= 4:
         a = 3.999
 
@@ -27,11 +29,12 @@ for n in range(500):
 
 
     delta_mean = sum / len(delta)
-    print(delta_mean)
+    print(a, delta_mean)
     lyapunov.append([a, delta_mean])
 
     if a == 3.999:
         break
     
 print(lyapunov)
+outputCSV(lyapunov, 'logistic.csv')
 

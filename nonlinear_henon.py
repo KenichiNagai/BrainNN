@@ -3,6 +3,8 @@ import statistics
 from cv2 import sqrt
 import numpy as np
 
+from csvFunctions import outputCSV
+
 # Henon map
 a = 1.0
 b = 0.3
@@ -18,8 +20,8 @@ f0 = np.array([ [ 1/math.sqrt(2)], [1/math.sqrt(2)] ])
 # print(f0)
 result = []
 
-for n in range(6):
-    a = 1.0 + 0.1*n
+for n in range(60):
+    a = 1.0 + 0.01*n
     if a == 1.0:
         a = 1.001
 
@@ -72,6 +74,8 @@ for n in range(6):
     result.append([a, lambda_1, lambda_2])
 
 print(result)
+outputCSV(result, 'henon.csv')
+
 
 
 
