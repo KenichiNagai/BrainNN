@@ -2,6 +2,7 @@ import math
 import statistics
 from cv2 import sqrt
 import numpy as np
+from tqdm import tqdm
 
 from csvFunctions import outputCSV
 
@@ -11,9 +12,6 @@ b = 0.3
 x0 = 0.1
 y0 = 0.1
 
-x = [x0]
-y = [y0]
-
 e0 = np.array([ [-1/math.sqrt(2)], [1/math.sqrt(2)] ])
 f0 = np.array([ [ 1/math.sqrt(2)], [1/math.sqrt(2)] ])
 # print(e0)
@@ -22,17 +20,23 @@ result = []
 
 for n in range(60):
     a = 1.0 + 0.01*n
-    if a == 1.0:
-        a = 1.001
-
+    # if a == 1.0:
+        # a = 1.001
+    if a > 1.5:
+        break
+    
+    x = [x0]
+    y = [y0]
     l_sum = []
     s_sum = []
+    mapping = []
     
-    for i in range(1000000):
+    for i in tqdm(range(1000000)):
         # print (str(i)+'回目')
 
         x.append( 1 - a*(x[-1]**2) + y[-1])
         y.append(b * x[-1])
+        mapping.append([x[-1], y[-1]])
 
         df = np.array([[-2 * a * x[-1] , 1],[b, 0]])
         # print(df)
@@ -60,18 +64,21 @@ for n in range(60):
         e0 = e1 / np.linalg.norm(e1)
         f0 = f1_dash / np.linalg.norm(f1_dash)
 
-        l_sum.append(math.log(l1))
-        s_sum.append(math.log(s1))
-        break
+        if i > 100000:
+            l_sum.append(math.log(l1))
+            s_sum.append(math.log(s1))
 
-    print(l_sum)
-    print(s_sum)
+    # print(l_sum)
+    # print(s_sum)
 
     lambda_1 = statistics.mean(l_sum)
     lambda_2 = statistics.mean(s_sum)
 
-    print([a, lambda_1, lambda_2])
+    # print([a, lambda_1, lambda_2])
     result.append([a, lambda_1, lambda_2])
+
+    if n % 5 == 0:
+        outputCSV(mapping, 'henonMap'+str(a)+'.csv')
 
 print(result)
 outputCSV(result, 'henon.csv')
