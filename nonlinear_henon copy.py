@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 
 from csvFunctions import outputCSV
 
-# Henon map
 a = 1.0
 b = 0.3
 x0 = 0.1
@@ -15,8 +14,6 @@ y0 = 0.1
 
 e0 = np.array([ [-1/math.sqrt(2)], [1/math.sqrt(2)] ])
 f0 = np.array([ [ 1/math.sqrt(2)], [1/math.sqrt(2)] ])
-# print(e0)
-# print(f0)
 result = []
 
 for n in range(60):
@@ -28,13 +25,11 @@ for n in range(60):
     y = [y0]
     l_sum = []
     s_sum = []
-    mapping = []
 
     
     for i in tqdm(range(100000)):
-        x.append( 1 - a*(x[-1]**2) + y[-1] )
-        y.append( b * x[-1] )
-        mapping.append([x[-1], y[-1]])
+        x.append( 1 - a*(x[-1]**2) + y[-1])
+        y.append(b * x[-1])
 
         df = np.array([[-2 * a * x[-1] , 1],[b, 0]])
 
@@ -59,12 +54,10 @@ for n in range(60):
     result.append([a, lambda_1, lambda_2])
 
     if n % 5 == 0:
-        outputCSV(mapping, 'henonMap'+str(a)+'.csv')
-
         fig2 = plt.figure()
         ax2 = fig2.add_subplot(1,1,1)
         ax2.scatter(x,y,marker=".")
-        fig2.savefig("henon_sca_"+str(a)+".png", format="png", dpi=100)
+        fig2.savefig("henon_sca_"+str(a)+".png", format="png", dpi=300)
         fig2.show()
 
 
@@ -73,6 +66,7 @@ outputCSV(result, 'henon.csv')
 
 plot_x = []
 plot_y = []
+
 for r in result:
     plot_x.append(r[0])
     plot_y.append(r[1])
@@ -80,7 +74,7 @@ for r in result:
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 ax.scatter(plot_x,plot_y,marker=".")
-fig.savefig("henon_lya.png", format="png", dpi=100)
+fig.savefig("henon_lya.png", format="png", dpi=300)
 fig.show()
 
 
