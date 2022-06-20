@@ -49,7 +49,7 @@ for n in range(500):
         break
     
 print(lyapunov)
-# outputCSV(lyapunov, 'logistic.csv')
+outputCSV(lyapunov, 'logistic.csv')
 fig = plt.figure(figsize=(18.0, 6.0))
 ax = fig.add_subplot(1,1,1)
 ax.scatter(plot_x,plot_y,marker=".")
