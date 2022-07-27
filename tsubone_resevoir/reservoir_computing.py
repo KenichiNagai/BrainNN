@@ -73,10 +73,27 @@ class ReservoirNetWork:
 
     # 重みを0.1か-0.1で初期化したものを返す
     def _generate_variational_weights(self, num_pre_nodes, num_post_nodes):
-        return (np.random.randint(0, 2, num_pre_nodes * num_post_nodes).reshape([num_pre_nodes, num_post_nodes]) * 2 - 1) * 0.1
+        # return (np.random.randint(0, 2, num_pre_nodes * num_post_nodes).reshape([num_pre_nodes, num_post_nodes]) * 2 - 1) * 0.1
+
+        w = (np.random.randint(0, 4, num_pre_nodes * num_post_nodes).reshape([num_pre_nodes, num_post_nodes]))
+        b = np.where(w % 2 == 0, 0, (w-2)*0.5)
+        print(b)
+        # exit()
+        return b
+
 
     # Reservoir層の重みを初期化
     def _generate_reservoir_weights(self, num_nodes):
         weights = np.random.normal(0, 1, num_nodes * num_nodes).reshape([num_nodes, num_nodes])
         spectral_radius = max(abs(linalg.eigvals(weights)))
-        return weights / spectral_radius
+        # return weights / spectral_radius
+        
+        # tsubone
+        alpha = 1/ spectral_radius * 0.99
+
+        print(spectral_radius)
+        # print(weights)
+        print('MAX of spectral_radius', max(abs(linalg.eigvals(weights * alpha))))
+        # exit()
+
+        return weights * alpha

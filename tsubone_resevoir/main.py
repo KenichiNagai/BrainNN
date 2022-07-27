@@ -11,11 +11,15 @@ import matplotlib.pyplot as plt
 # RATIO_TRAIN = 0.9
 # dt = np.pi * 0.01
 # AMPLITUDE = 0.9
+# NUM_TIME_STEPS = int(T/dt)
+
 LEAK_RATE=0.9
 NUM_INPUT_NODES = 1
-NUM_RESERVOIR_NODES = 2000
+NUM_RESERVOIR_NODES = 100
 NUM_OUTPUT_NODES = 1
-# NUM_TIME_STEPS = int(T/dt)
+
+
+
 
 # example of activator
 def ReLU(x):
@@ -30,13 +34,12 @@ def main():
     print(x)
     a = 3.9
     for i in range(1101):
-        print(x[-1])
+        # print(x[-1])
         # print(a * x[-1] * (1- x[-1]))
         x = np.append(x, a * x[-1] * (1.0- x[-1]))
     data = x
 
-    print(data)
-
+    # print(data)
 
 
     num_train = 1001
