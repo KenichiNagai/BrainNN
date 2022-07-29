@@ -13,19 +13,17 @@ import matplotlib.pyplot as plt
 # AMPLITUDE = 0.9
 # NUM_TIME_STEPS = int(T/dt)
 
-LEAK_RATE=0.9
-NUM_INPUT_NODES = 1
-NUM_RESERVOIR_NODES = 100
-NUM_OUTPUT_NODES = 1
-
-
-
 
 # example of activator
 def ReLU(x):
     return np.maximum(0, x)
 
+
 def main():
+    LEAK_RATE=0.9
+    NUM_INPUT_NODES = 1
+    NUM_RESERVOIR_NODES = 100
+    NUM_OUTPUT_NODES = 1
     # i_gen = InputGenerator(0, T, NUM_TIME_STEPS)
     # data = i_gen.genetare_logistic()
 
@@ -56,6 +54,7 @@ def main():
 
     num_predict = int(len(data[num_train:]))
     predict_result = model.predict(num_predict)
+    print(predict_result)
 
     t = np.arange(1102)
 
@@ -69,6 +68,67 @@ def main():
     plt.xlabel("step")
     plt.ylabel("x_n")
     plt.show()
+
+
+
+def main_henon():
+    LEAK_RATE=0.9
+    NUM_INPUT_NODES = 2
+    NUM_RESERVOIR_NODES = 100
+    NUM_OUTPUT_NODES = 2
+    # i_gen = InputGenerator(0, T, NUM_TIME_STEPS)
+    # data = i_gen.genetare_logistic()
+    a = 1.4
+    b = 0.3
+    x0 = 0.1
+    y0 = 0.1
+
+    x = [x0]
+    y = [y0]
+
+
+    for i in range(1101):
+        x.append( 1 - a*(x[-1]**2) + y[-1] )
+        y.append( b * x[-1] )
+
+        # mapping.append([x[-1], y[-1]])
+
+    x = np.array(x)
+    y = np.array(y)
+    data = [x,y]
+
+    # print(data)
+
+
+    num_train = 1001
+    train_data = data[:num_train]
+
+    model = ReservoirNetWork(inputs=train_data,
+        num_input_nodes=NUM_INPUT_NODES, 
+        num_reservoir_nodes=NUM_RESERVOIR_NODES, 
+        num_output_nodes=NUM_OUTPUT_NODES, 
+        leak_rate=LEAK_RATE)
+
+    model.train() # 訓練
+    train_result = model.get_train_result() # 訓練の結果を取得
+
+    num_predict = int(len(data[num_train:]))
+    predict_result = model.predict(num_predict)
+    print(predict_result)
+
+    t = np.arange(1102)
+
+    ## plot
+    plt.plot(t, data, label="inputs")
+    plt.plot(t[:num_train], train_result, label="trained")
+    plt.plot(t[num_train:], predict_result, label="predicted")
+    plt.axvline(x=1000, label="end of train", color="green") # border of train and prediction
+    plt.legend()
+    plt.title("ESN - Logistic Prediction")
+    plt.xlabel("step")
+    plt.ylabel("x_n")
+    plt.show()
+
 
 if __name__=="__main__":
     main()
